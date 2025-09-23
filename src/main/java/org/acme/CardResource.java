@@ -90,7 +90,7 @@ public class CardResource {
 
         PanacheQuery<Card> query = (q == null || q.isBlank())
                 ? Card.findAll(sortObj)
-                : Card.find("lower(hunter.name) like ?1 or lower(nenAbility) like ?1 or lower(nenType) like ?1",
+                : Card.find("lower(hunter.name) like ?1 or lower(nenAbility) like ?1",
                 sortObj,
                 "%" + q.toLowerCase() + "%");
 
