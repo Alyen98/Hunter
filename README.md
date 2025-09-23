@@ -70,7 +70,7 @@ GET /licenses/{id} - Retorna informações de uma licença específica.
 ## Documentação da API
 Após executar a aplicação, acesse a documentação interativa:
 
-Swagger UI: http://localhost:8080/q/swagger-ui/
+Swagger UI: https://hunter-8ttu.onrender.com/q/swagger-ui/
 
 ## Desenvolvimento
 Principais Entidades
