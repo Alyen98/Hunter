@@ -1,87 +1,176 @@
+# Hunter API
 
-## API Hunter x Hunter
-Bem-vindo à API Hunter x Hunter, um serviço web RESTful construído com Quarkus. Esta API permite que você gerencie e recupere informações sobre Hunters, suas habilidades Nen (Cards), Exames Hunter e Licenças oficiais do universo de Hunter x Hunter.
+Bem-vindo à Hunter API, uma API RESTful desenvolvida com Quarkus para gerenciar entidades do universo de Hunter x Hunter. Através dela, é possível cadastrar, consultar, atualizar e deletar Hunters, suas habilidades Nen (Cards), Exames e Licenças.
 
-O projeto está configurado com um banco de dados H2 em memória que é pré-carregado com dados iniciais, facilitando a execução e o teste dos endpoints imediatamente. Ele também apresenta uma interface Swagger UI com tema customizado para documentação interativa da API.
+## Features
 
-## Tecnologias Utilizadas
-Quarkus - Framework Java para desenvolvimento de microsserviços e aplicações nativas em nuvem.
+  * **Gerenciamento Completo de Entidades:** Operações CRUD para Hunters, Cards, Exames e Licenças Hunter.
+  * **API RESTful com HATEOAS:** Respostas em JSON que incluem links para facilitar a navegação e descoberta de recursos.
+  * **Busca Avançada:** Endpoint de busca para Cards com suporte a filtro por termo, ordenação e paginação.
+  * **Criação Aninhada de Recursos:** Crie um Hunter, suas habilidades (Cards) e associe-o a Exames em uma única requisição.
+  * **Paginação e Ordenação:** Suporte completo para paginação e ordenação na maioria dos endpoints de listagem.
+  * **Validação de Dados:** Utiliza Bean Validation para garantir a integridade dos dados na entrada.
+  * **Banco de Dados Pré-populado:** Inclui um arquivo `import.sql` que popula o banco de dados com personagens e dados icônicos do anime, facilitando testes e demonstrações.
 
-Recursos Disponíveis
-Hunters: Cadastro, consulta, atualização e exclusão de Hunters.
+## Tecnologia Utilizada
 
-Cards (Habilidades Nen): Gerenciamento completo das habilidades Nen dos Hunters.
+  * **Java**
+  * **Quarkus:** Framework Java nativo para nuvem, otimizado para JVM e compilação nativa.
+  * **JAX-RS (RESTEasy Reactive):** Para a construção dos endpoints REST.
+  * **Hibernate ORM com Panache:** Para simplificar o acesso e a manipulação de dados com JPA.
+  * **MicroProfile OpenAPI:** Para geração automática de documentação da API.
+  * **Maven:** Para gerenciamento de dependências e build do projeto.
+  * **H2 (Banco de Dados em Memória):** Padrão do Quarkus para o perfil de desenvolvimento.
 
-Exames: Administração dos Exames Hunter e outros eventos.
+## Como Começar
 
-Licenças Hunter: Consulta das licenças oficiais dos Hunters.
+Siga os passos abaixo para clonar e executar a aplicação localmente.
 
-## Endpoints Principais
-Hunters (/hunters)
+### Pré-requisitos
 
-GET /hunters - Lista todos os hunters com paginação.
+  * JDK 17 ou superior.
+  * Apache Maven 3.8.1 ou superior.
 
-POST /hunters - Cria um novo hunter.
+### Executando a Aplicação
 
-POST /hunters/full - Cria um hunter com seus cards e exames associados.
+1.  **Clone o repositório:**
 
-GET /hunters/{id} - Retorna informações de um hunter específico.
+    ```bash
+    git clone <URL_DO_SEU_REPOSITORIO>
+    cd <NOME_DO_PROJETO>
+    ```
 
-PUT /hunters/{id} - Atualiza dados de um hunter.
+2.  **Execute em modo de desenvolvimento:**
+    O Quarkus oferece um modo de desenvolvimento com live reload, que é extremamente produtivo.
 
-DELETE /hunters/{id} - Exclui um hunter.
+    ```bash
+    ./mvnw quarkus:dev
+    ```
 
-GET /hunters/{id}/cards - Lista os cards de um hunter específico.
+3.  **Acesse a API:**
+    A aplicação estará disponível em `http://localhost:8080`. O banco de dados será automaticamente populado com os dados do arquivo `src/main/resources/import.sql`.
 
-Cards (/cards)
-
-GET /cards - Lista todos os cards com paginação.
-
-POST /cards - Cria um novo card para um hunter.
-
-GET /cards/{id} - Retorna informações de um card específico.
-
-PUT /cards/{id} - Atualiza dados de um card.
-
-DELETE /cards/{id} - Exclui um card.
-
-GET /cards/search - Pesquisa cards com filtros, ordenação e paginação.
-
-Exames (/exams)
-
-GET /exams - Lista todos os exames.
-
-POST /exams - Cria um novo exame.
-
-GET /exams/{id} - Retorna informações de um exame específico.
-
-PUT /exams/{id} - Atualiza dados de um exame.
-
-DELETE /exams/{id} - Exclui um exame.
-
-POST /exams/{examId}/hunters/{hunterId} - Adiciona um hunter a um exame.
-
-Licenças (/licenses)
-
-GET /licenses - Lista todas as licenças.
-
-GET /licenses/{id} - Retorna informações de uma licença específica.
+4.  **Explore a Documentação (Swagger UI):**
+    A documentação da API, gerada automaticamente, pode ser acessada em:
+    [http://localhost:8080/q/swagger-ui](https://www.google.com/search?q=http://localhost:8080/q/swagger-ui)
 
 ## Documentação da API
-Após executar a aplicação, acesse a documentação interativa:
 
-Swagger UI: https://hunter-8ttu.onrender.com/q/swagger-ui/
+A seguir estão os principais endpoints disponíveis.
 
-## Desenvolvimento
-Principais Entidades
+### Hunters (`/hunters`)
 
-Hunter: Representa os caçadores do universo HxH.
+Recurso para gerenciar os Hunters.
 
-Card: Representa as habilidades Nen de um Hunter.
+  * **`GET /hunters`**: Lista todos os hunters com paginação.
 
-Exam: Representa os Exames Hunter e outros eventos importantes.
+      * Query Params: `page` (página, default 1), `size` (itens por página, default 10).
 
-HunterLicense: Representa a licença oficial de um Hunter.
+  * **`GET /hunters/{id}`**: Busca um hunter pelo seu ID.
 
-## Licença
-Este projeto não possui licença.
+  * **`GET /hunters/{id}/cards`**: Lista todos os cards (habilidades) de um hunter específico.
+
+  * **`POST /hunters`**: Cria um novo hunter (requisição simples).
+
+      * Corpo da Requisição:
+        ```json
+        {
+          "name": "Silva Zoldyck",
+          "age": 46
+        }
+        ```
+
+  * **`POST /hunters/full`**: Cria um hunter com seus cards e o associa a exames existentes em uma única chamada.
+
+      * Corpo da Requisição (usando o `HunterCreationRequest`):
+        ```json
+        {
+          "name": "Chrollo Lucilfer",
+          "age": 26,
+          "cards": [
+            {
+              "nenAbility": "Skill Hunter",
+              "nenType": "Especialista",
+              "exam": "Yorknew City Arc"
+            }
+          ],
+          "examIds": [1, 3]
+        }
+        ```
+
+  * **`PUT /hunters/{id}`**: Atualiza os dados de um hunter existente.
+
+  * **`DELETE /hunters/{id}`**: Deleta um hunter pelo seu ID.
+
+### Cards (`/cards`)
+
+Recurso para gerenciar os Cards de habilidades Nen.
+
+  * **`GET /cards`**: Lista todos os cards com paginação.
+
+  * **`GET /cards/{id}`**: Busca um card pelo seu ID.
+
+  * **`GET /cards/search`**: Realiza uma busca avançada por cards.
+
+      * Query Params:
+          * `q`: Termo para buscar no nome do hunter, habilidade ou tipo de Nen.
+          * `sort`: Campo para ordenação (`id`, `hunter.name`, etc.).
+          * `direction`: Direção da ordenação (`asc` ou `desc`).
+          * `page`, `size`: Para paginação.
+
+  * **`POST /cards`**: Cria um novo card. É necessário associá-lo a um hunter existente.
+
+      * Corpo da Requisição:
+        ```json
+        {
+          "nenAbility": "Remote Punch",
+          "nenType": "Emissor",
+          "exam": "287th Hunter Exam",
+          "hunter": {
+            "id": 4
+          }
+        }
+        ```
+
+  * **`PUT /cards/{id}`**: Atualiza um card existente.
+
+  * **`DELETE /cards/{id}`**: Deleta um card.
+
+### Exams (`/exams`)
+
+Recurso para gerenciar os Exames Hunter.
+
+  * **`GET /exams`**: Lista todos os exames.
+
+  * **`GET /exams/{id}`**: Busca um exame pelo seu ID.
+
+  * **`POST /exams`**: Cria um novo exame.
+
+  * **`PUT /exams/{id}`**: Atualiza um exame existente.
+
+  * **`DELETE /exams/{id}`**: Deleta um exame.
+
+  * **`POST /exams/{examId}/hunters/{hunterId}`**: Adiciona um hunter como participante de um exame.
+
+### Licenses (`/licenses`)
+
+Recurso para visualizar as Licenças Hunter.
+
+  * **`GET /licenses`**: Lista todas as licenças.
+
+  * **`GET /licenses/{id}`**: Busca uma licença pelo seu ID.
+
+## Modelo de Dados
+
+As entidades principais e seus relacionamentos são:
+
+  * **`Hunter`**: A entidade central.
+      * `OneToOne` com `HunterLicense` (um hunter tem uma licença).
+      * `OneToMany` com `Card` (um hunter pode ter vários cards).
+      * `ManyToMany` com `Exam` (um hunter pode participar de vários exames).
+  * **`Card`**: Representa uma habilidade Nen.
+      * `ManyToOne` com `Hunter` (um card pertence a um hunter).
+  * **`Exam`**: Representa um evento.
+      * `ManyToMany` com `Hunter` (um exame pode ter vários participantes).
+  * **`HunterLicense`**: A licença.
+      * `OneToOne` com `Hunter` (uma licença pertence a um hunter).
