@@ -36,7 +36,7 @@ Siga os passos abaixo para clonar e executar a aplicação localmente.
 1.  **Clone o repositório:**
 
     ```bash
-    git clone <URL_DO_SEU_REPOSITORIO>
+    git clone https://github.com/Alyen98/Hunter.git
     cd <NOME_DO_PROJETO>
     ```
 
