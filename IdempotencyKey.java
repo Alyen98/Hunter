@@ -1,9 +1,8 @@
 package org.acme;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
-import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+
 import java.time.Instant;
 
 public class IdempotencyKey extends PanacheEntityBase{

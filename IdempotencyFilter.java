@@ -1,13 +1,11 @@
 package org.acme;
 
 import jakarta.annotation.Priority;
-import jakarta.inject.Inject;
 import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.container.ContainerRequestFilter;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.Provider;
 import jakarta.transaction.Transactional;
-import java.io.IOException;
 
 @Provider
 @Priority(500) // Define a ordem de execução do filtro
@@ -17,7 +15,7 @@ public class IdempotencyFilter implements ContainerRequestFilter {
 
     @Override
     @Transactional
-    public void filter(ContainerRequestContext requestContext) throws IOException {
+    public void filter(ContainerRequestContext requestContext) {
         String method = requestContext.getMethod();
 
         // Aplica o filtro apenas para requisições POST

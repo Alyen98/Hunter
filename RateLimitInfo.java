@@ -4,10 +4,10 @@ import java.time.Instant;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class RateLimitInfo {
-    // Limite máximo de requisições por janela (ex: 1 minuto)
+    // Limite máximo de requisições por janela (1 minuto)
     public static final int LIMIT = 50;
 
-    // Janela de tempo em segundos (ex: 60 segundos)
+    // Janela de tempo em segundos (60 segundos)
     public static final long WINDOW_SECONDS = 60;
 
     // Contador de requisições restantes na janela atual

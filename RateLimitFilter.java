@@ -5,7 +5,7 @@ import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.container.ContainerRequestFilter;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.Provider;
-import java.io.IOException;
+
 import java.time.Instant;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -18,7 +18,7 @@ public class RateLimitFilter implements ContainerRequestFilter {
     static final ConcurrentMap<String, RateLimitInfo> USAGE_MAP = new ConcurrentHashMap<>();
 
     @Override
-    public void filter(ContainerRequestContext requestContext) throws IOException {
+    public void filter(ContainerRequestContext requestContext) {
         //IP vai de um proxy/load balancer (e.g., X-Forwarded-For).
         // Pra simular, usar um cabeçalho customizado ou um valor fixo se não houver.
         String clientIp = requestContext.getHeaderString("X-Forwarded-For");
